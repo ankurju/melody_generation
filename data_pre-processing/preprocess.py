@@ -2,6 +2,7 @@ import os
 import music21 as m21
 
 KERN_DATASET_PATH = "deutschl/test"
+SAVE_DIR = "dataset"
 ACCEPTABLE_DURATIONS=[
     0.25 , 0.5 , 0.75 , 1.0 , 1.5 , 2 , 3 , 4
 ]
@@ -53,16 +54,34 @@ def transpose(song):
     tranposed_song = song.transpose(interval)
     return tranposed_song
 
+def encode_song(song,time_step=0.25):
+    encoded_song=[]
+    for event in song.flat.notesAndRests:
+        #handle notes
+        if isinstance(event,m21.note.Note):
+            symbol = event.pitch.midi
+        elif isinstance(event,m21.note.Rest):
+            symbol = "r"
+
+        steps = int(event.duration.quarterLength/time_step)
+        for step in range(steps):
+            if step==0:
+                encoded_song.append(symbol)
+            else :
+                encoded_song.append("_")
+
+    #cast encoded song to a string
+    encoded_song = " ".join(map(str,encoded_song))
+    return encoded_song
 
 def preprocess(dataset_path):
-    pass
 
     # load the folk songs
     print("Loading songs....")
     songs = load_songs_in_kern(dataset_path)
     print(f"Loaded {len(songs)} songs")
 
-    for song in songs:
+    for i,song in enumerate(songs):
         # filter out songs that have non-acceptable durations
         if not has_acceptable_durations(song,ACCEPTABLE_DURATIONS):
             continue
@@ -71,14 +90,19 @@ def preprocess(dataset_path):
         song = transpose(song)
 
         # encode songs with music time series representation
+        encoded_song = encode_song(song)
 
         # save songs to text file
+        save_path = os.path.join(SAVE_DIR,str(i))
+        with open(save_path,"w") as fp:
+            fp.write(encoded_song)
+
 
 
 if __name__== "__main__":
     songs = load_songs_in_kern(KERN_DATASET_PATH)
     print(f"Loaded {len(songs)} songs.")
     song = songs[0]
-    print(f"Has acceptable duration? {has_acceptable_durations(song,ACCEPTABLE_DURATIONS)}")
+    preprocess(KERN_DATASET_PATH)
     transposed_song = transpose(song)
     # song.show()
