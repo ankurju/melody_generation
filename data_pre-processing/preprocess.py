@@ -1,6 +1,8 @@
 import os
 import music21 as m21
 import json
+import tensorflow.keras as keras
+import numpy as np
 
 KERN_DATASET_PATH = "deutschl/test"
 SINGLE_FILE_DATASET = "file_dataset"
@@ -57,7 +59,7 @@ def transpose(song):
 
 def encode_song(song,time_step=0.25):
     encoded_song=[]
-    for event in song.flat.notesAndRests:
+    for event in song.flatten().notesAndRests:
         #handle notes
         if isinstance(event,m21.note.Note):
             symbol = event.pitch.midi
@@ -134,10 +136,49 @@ def preprocess(dataset_path):
         with open(save_path,"w") as fp:
             fp.write(encoded_song)
 
+def convert_songs_to_int(songs):
+    int_songs = []
+    #load mappings
+    with open(MAPPING_PATH,"r") as fp:
+        mappings = json.load(fp)
+
+    #cast songs string to a list
+    songs = songs.split()
+
+    #map songs to int
+    for symbol in songs:
+        int_songs.append(mappings[symbol])
+
+    return int_songs
+
+def generate_training_sequences(sequence_length):
+    X = []
+    y = []
+
+    # load songs and convert them to int
+    songs = load(SINGLE_FILE_DATASET)
+    int_songs = convert_songs_to_int(songs)
+
+    # generate the training sequences
+    num_sequences = len(int_songs) - sequence_length
+    for i in range(num_sequences):
+        X.append(int_songs[i:i+sequence_length])
+        y.append(int_songs[i+sequence_length])
+
+    # one hot encode the sequences
+    vocabulary_size = len(set(int_songs))
+    X = keras.utils.to_categorical(X,num_classes=vocabulary_size)
+    y = np.array(y)
+
+    return X,y
+
+
+
 def main():
     preprocess(KERN_DATASET_PATH)
     songs = create_single_file_dataset(SAVE_DIR,SINGLE_FILE_DATASET,SEQUENCE_LENGTH)
     create_mapping(songs,MAPPING_PATH)
+    X,y = generate_training_sequences(SEQUENCE_LENGTH)
 
 if __name__== "__main__":
     main()
