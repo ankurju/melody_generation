@@ -1,8 +1,8 @@
-from ..data_preprocessing.preprocess import generate_training_sequences,SEQUENCE_LENGTH
+from data_preprocessing.preprocess import generate_training_sequences,SEQUENCE_LENGTH
 import tensorflow.keras as keras
 
 
-OUTPUT_UNITS = 38
+OUTPUT_UNITS = 18
 NUM_UNITS = [256]
 LOSS = "sparse_categorical_crossentropy"
 LEARNING_RATE = 0.001
@@ -22,7 +22,7 @@ def build_model(output_units, num_units, loss, learning_rate):
     model = keras.Model(input,output)
 
     #compile the model
-    model.compile(loss=loss,optimizer=keras.optimizers.Adam(lr=learning_rate),metrics=["accuracy"])
+    model.compile(loss=loss,optimizer=keras.optimizers.Adam(learning_rate=learning_rate),metrics=["accuracy"])
 
     model.summary()
 
@@ -33,13 +33,13 @@ def train(output_units=OUTPUT_UNITS, num_units=NUM_UNITS, loss=LOSS, learning_ra
     X,y = generate_training_sequences(SEQUENCE_LENGTH)
 
     #build the network
-    model = build_model(OUTPUT_UNITS,NUM_UNITS)
+    model = build_model(output_units,num_units,loss,learning_rate)
 
     #train the model
     model.fit(X,y,epochs=epochs,batch_size=batch_size)
 
     #save the model
-    model.save(SAVE_MODEL_PATH)
+    model.save(SAVE_MODEL_PATH, save_format='keras')
 
 if __name__ == "__main__":
     train()

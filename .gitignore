@@ -1,4 +1,6 @@
 dataset
 file_dataset
 *.json
-
+__pycache__
+*.keras
+*.h5

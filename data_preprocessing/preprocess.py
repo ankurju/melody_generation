@@ -3,12 +3,14 @@ import music21 as m21
 import json
 import tensorflow.keras as keras
 import numpy as np
+from pathlib import Path
 
-KERN_DATASET_PATH = "deutschl/test"
-SINGLE_FILE_DATASET = "file_dataset"
-MAPPING_PATH = "mapping.json"
+PROJECT_ROOT = Path(__file__).parent
+KERN_DATASET_PATH = os.path.join(PROJECT_ROOT,"deutschl/test")
+SINGLE_FILE_DATASET = os.path.join(PROJECT_ROOT,"file_dataset")
+MAPPING_PATH = os.path.join(PROJECT_ROOT,"mapping.json")
 SEQUENCE_LENGTH = 64
-SAVE_DIR = "dataset"
+SAVE_DIR = os.path.join(PROJECT_ROOT,"dataset")
 ACCEPTABLE_DURATIONS=[
     0.25 , 0.5 , 0.75 , 1.0 , 1.5 , 2 , 3 , 4
 ]
