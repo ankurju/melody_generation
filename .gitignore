@@ -4,3 +4,4 @@ file_dataset
 __pycache__
 *.keras
 *.h5
+*.midi
