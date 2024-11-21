@@ -1,14 +1,6 @@
-from data_preprocessing.preprocess import generate_training_sequences,SEQUENCE_LENGTH
 import tensorflow.keras as keras
-
-
-OUTPUT_UNITS = 18
-NUM_UNITS = [256]
-LOSS = "sparse_categorical_crossentropy"
-LEARNING_RATE = 0.001
-EPOCHS = 50
-BATCH_SIZE = 64
-SAVE_MODEL_PATH = "model.h5"
+from preprocess import generate_training_sequences
+from config import OUTPUT_UNITS,NUM_UNITS,LOSS,LEARNING_RATE,EPOCHS,BATCH_SIZE,SAVE_MODEL_PATH,SEQUENCE_LENGTH
 
 
 def build_model(output_units, num_units, loss, learning_rate):

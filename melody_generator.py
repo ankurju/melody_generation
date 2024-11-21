@@ -2,7 +2,7 @@ import json
 import tensorflow.keras as keras
 import numpy as np
 import music21 as m21
-from data_preprocessing.preprocess import SEQUENCE_LENGTH,MAPPING_PATH
+from config import SEQUENCE_LENGTH,MAPPING_PATH
 
 
 
