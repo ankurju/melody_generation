@@ -25,9 +25,7 @@ def has_acceptable_durations(song , acceptable_durations):
 
 def transpose(song):
     """Transposes song to C maj/A min
-
-    :param piece (m21 stream): Piece to transpose
-    :return transposed_song (m21 stream):
+    return transposed_song (m21 stream):
     """
 
     # get key from the song
@@ -39,7 +37,6 @@ def transpose(song):
     if not isinstance(key, m21.key.Key):
         key = song.analyze("key")
 
-    # get interval for transposition. E.g., Bmaj -> Cmaj
     if key.mode == "major":
         interval = m21.interval.Interval(key.tonic, m21.pitch.Pitch("C"))
     elif key.mode == "minor":
@@ -170,7 +167,6 @@ def main():
     preprocess(KERN_DATASET_PATH)
     songs = create_single_file_dataset(SAVE_DIR,SINGLE_FILE_DATASET,SEQUENCE_LENGTH)
     create_mapping(songs,MAPPING_PATH)
-    X,y = generate_training_sequences(SEQUENCE_LENGTH)
 
 if __name__== "__main__":
     main()

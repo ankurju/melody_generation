@@ -1,5 +1,5 @@
 # configuration for training
-OUTPUT_UNITS = 18
+OUTPUT_UNITS = 32
 NUM_UNITS = [256]
 LOSS = "sparse_categorical_crossentropy"
 LEARNING_RATE = 0.001
@@ -8,7 +8,7 @@ BATCH_SIZE = 64
 SAVE_MODEL_PATH = "model.h5"
 
 # configuration for preprocessing
-KERN_DATASET_PATH = "deutschl/test"
+KERN_DATASET_PATH = "deutschl/altdeu2"
 SINGLE_FILE_DATASET = "file_dataset"
 MAPPING_PATH = "mapping.json"
 SEQUENCE_LENGTH = 64
