@@ -63,5 +63,5 @@ These are the generated .mid files for the seed value "69 _ _ _ 69 _ _ _ _ _ 68 
 <br>Uniqueness(Bi-LSTM): 65.4%
 
 The result shows a contrasting behaviour i.e Bi-LSTM loss is higher than LSTM but its accuracy is also higher than LSTM. It can happen due big errors in some of the data leading to high loss.
-FOr both of the models I have used "Categorical Cross Entropy" loss function and it is sensitive to large errors. Hence ,it can lead to a significant increase in the total loss, even if the majority of predictions are correct.
+For both of the models I have used "Categorical Cross Entropy" loss function and it is sensitive to large errors. Hence ,it can lead to a significant increase in the total loss, even if the majority of predictions are correct.
 
